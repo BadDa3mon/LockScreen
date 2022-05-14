@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">LockScreen</string>
+
+    <string name="notification_channel_id">LOCKSCREEN_CHANNEL</string>
+    <string name="notification_channel_name">LockScreenService</string>
+
+    <string name="current_level">Текущий уровень: %d</string>
+</resources>

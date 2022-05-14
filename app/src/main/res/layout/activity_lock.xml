@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/mainXml"
+    tools:context=".activities.MainActivity"
+    tools:ignore="MissingClass">
+
+    <ImageView
+        android:id="@+id/wallpaper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+
+    <RelativeLayout
+        android:id="@+id/base_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/rounded_corner"
+        android:backgroundTint="#77000000"
+        android:padding="10dp">
+
+        <TextView
+                android:id="@+id/firstCase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#DDDFE4"
+                android:textSize="35sp"
+                tools:text="10 + 15 ="/>
+
+        <TextView
+                android:id="@+id/secondCase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/firstCase"
+                android:layout_marginTop="25dp"
+                android:textColor="#DDDFE4"
+                android:textSize="35sp"
+                tools:text="12 - 8 ="/>
+
+        <TextView
+                android:id="@+id/thirdCase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/secondCase"
+                android:layout_marginTop="25dp"
+                android:textColor="#DDDFE4"
+                android:textSize="35sp"
+                tools:text="15 * 2 ="/>
+
+        <EditText
+                android:id="@+id/firstAnswer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/firstCase"
+                android:layout_alignParentRight="true"
+                android:inputType="numberDecimal"
+                android:maxLength="3"
+                android:selectAllOnFocus="true"
+                android:text="000"
+                android:textColor="#DDDFE4"
+                android:textSize="25sp"/>
+
+        <EditText
+            android:id="@+id/secondAnswer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/secondCase"
+            android:layout_alignParentRight="true"
+            android:inputType="numberDecimal"
+            android:maxLength="3"
+            android:selectAllOnFocus="true"
+            android:text="000"
+            android:textColor="#DDDFE4"
+            android:textSize="25sp" />
+
+        <EditText
+            android:id="@+id/thirdAnswer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/thirdCase"
+            android:layout_alignParentRight="true"
+            android:inputType="numberDecimal"
+            android:maxLength="3"
+            android:selectAllOnFocus="true"
+            android:text="000"
+            android:textColor="#DDDFE4"
+            android:textSize="25sp" />
+
+    </RelativeLayout>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/checkAnswerButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/base_layout"
+            android:layout_alignStart="@id/base_layout"
+            android:layout_alignEnd="@id/base_layout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20sp"
+            android:background="@drawable/rounded_corner"
+            android:backgroundTint="#FF777777"
+            android:text="Go!"
+            />
+
+
+
+
+
+</RelativeLayout>
