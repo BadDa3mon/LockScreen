@@ -16,10 +16,10 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-                android:name=".activities.LockActivity"
+                android:name="badda3mon.lockscreen.activities.LockActivity"
                 android:exported="true"/>
         <activity
-                android:name=".activities.MainActivity"
+                android:name="badda3mon.lockscreen.activities.MainActivity"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -28,7 +28,7 @@
         </activity>
 
         <receiver
-                android:name=".receivers.MainAdminReceiver"
+                android:name="badda3mon.lockscreen.receivers.MainAdminReceiver"
                 android:exported="true"
                 android:permission="android.permission.BIND_DEVICE_ADMIN">
             <meta-data
@@ -40,12 +40,12 @@
         </receiver>
 
 
-        <service android:name=".services.LockScreenService"
+        <service android:name="badda3mon.lockscreen.services.LockScreenService"
                  android:enabled="true"
                  android:exported="false"
                  android:permission="android.permission.BIND_JOB_SERVICE"/>
 
-        <service android:name=".services.LockScreenForegroundService"
+        <service android:name="badda3mon.lockscreen.services.LockScreenForegroundService"
                  android:enabled="true"
                  android:exported="false"/>
     </application>

@@ -1,7 +1,5 @@
 package badda3mon.lockscreen.activities;
 
-import android.app.Notification;
-import android.app.PendingIntent;
 import android.app.admin.DevicePolicyManager;
 import android.content.*;
 import android.graphics.Color;
@@ -14,11 +12,9 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import androidx.core.app.NotificationCompat;
 import badda3mon.lockscreen.additional.PersistenceStorage;
 import badda3mon.lockscreen.receivers.MainAdminReceiver;
 import badda3mon.lockscreen.services.LockScreenForegroundService;
-import badda3mon.lockscreen.services.LockScreenService;
 import badda3mon.lockscreen.R;
 
 import java.io.BufferedReader;

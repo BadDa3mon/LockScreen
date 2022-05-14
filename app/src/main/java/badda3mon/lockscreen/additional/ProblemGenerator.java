@@ -1,6 +1,5 @@
 package badda3mon.lockscreen.additional;
 
-import android.util.Log;
 import badda3mon.lockscreen.models.Problem;
 
 import java.util.Random;
