@@ -5,6 +5,7 @@ import android.app.WallpaperManager;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -24,6 +25,7 @@ import badda3mon.lockscreen.additional.PersistenceStorage;
 import badda3mon.lockscreen.additional.ProblemGenerator;
 import badda3mon.lockscreen.models.Problem;
 import badda3mon.lockscreen.receivers.MainAdminReceiver;
+import badda3mon.lockscreen.services.LockScreenService;
 
 public class LockActivity extends AppCompatActivity {
 	private static final String TAG = "LockActivity";
@@ -45,66 +47,96 @@ public class LockActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_lock);
+		try {
+			getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG);
+			getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN
+					| WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+					| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+					| WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 
-		getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG);
-		getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN
-				| WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-				| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-				| WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+			mDevicePolicyManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+			mComponentName = new ComponentName(LockActivity.this, MainAdminReceiver.class);
 
-		mDevicePolicyManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
-		mComponentName = new ComponentName(LockActivity.this, MainAdminReceiver.class);
+			String[] perms = new String[] { Manifest.permission.READ_EXTERNAL_STORAGE };
+			if (!(ContextCompat.checkSelfPermission(LockActivity.this, perms[0]) == PackageManager.PERMISSION_GRANTED)) {
+				ActivityCompat.requestPermissions(this, perms, REQUEST_PERMISSIONS_CODE);
+			} else continueAfterRequest();
 
-		String[] perms = new String[] { Manifest.permission.READ_EXTERNAL_STORAGE };
-		if (!(ContextCompat.checkSelfPermission(LockActivity.this, perms[0]) == PackageManager.PERMISSION_GRANTED)) {
-			ActivityCompat.requestPermissions(this, perms, REQUEST_PERMISSIONS_CODE);
-		} else continueAfterRequest();
+			Button btnUnlock = findViewById(R.id.checkAnswerButton);
+			btnUnlock.setOnClickListener(v -> {
+				int firstUserAnswer, secondUserAnswer, thirdUserAnswer;
 
-		Button btnUnlock = findViewById(R.id.checkAnswerButton);
-		btnUnlock.setOnClickListener(v -> {
-			int firstUserAnswer, secondUserAnswer, thirdUserAnswer;
+				EditText firstAnswer = findViewById(R.id.firstAnswer);
+				firstUserAnswer = Integer.parseInt(firstAnswer.getText().toString());
 
-			EditText firstAnswer = findViewById(R.id.firstAnswer);
-			firstUserAnswer = Integer.parseInt(firstAnswer.getText().toString());
+				EditText secondAnswer = findViewById(R.id.secondAnswer);
+				secondUserAnswer = Integer.parseInt(secondAnswer.getText().toString());
 
-			EditText secondAnswer = findViewById(R.id.secondAnswer);
-			secondUserAnswer = Integer.parseInt(secondAnswer.getText().toString());
+				EditText thirdAnswer = findViewById(R.id.thirdAnswer);
+				thirdUserAnswer = Integer.parseInt(thirdAnswer.getText().toString());
 
-			EditText thirdAnswer = findViewById(R.id.thirdAnswer);
-			thirdUserAnswer = Integer.parseInt(thirdAnswer.getText().toString());
+				Log.d(TAG,mFirstProblem.getRightAnswer() + " / " + firstUserAnswer);
+				Log.d(TAG,mSecondProblem.getRightAnswer() + " / " + secondUserAnswer);
+				Log.d(TAG,mThirdProblem.getRightAnswer() + " / " + thirdUserAnswer);
 
-			Log.d(TAG,mFirstProblem.getRightAnswer() + " / " + firstUserAnswer);
-			Log.d(TAG,mSecondProblem.getRightAnswer() + " / " + secondUserAnswer);
-			Log.d(TAG,mThirdProblem.getRightAnswer() + " / " + thirdUserAnswer);
+				if (mFirstProblem.getRightAnswer() == firstUserAnswer &&
+						mSecondProblem.getRightAnswer() == secondUserAnswer &&
+						mThirdProblem.getRightAnswer() == thirdUserAnswer){
 
-			if (mFirstProblem.getRightAnswer() == firstUserAnswer &&
-					mSecondProblem.getRightAnswer() == secondUserAnswer &&
-					mThirdProblem.getRightAnswer() == thirdUserAnswer){
+					isAnswerCorrect = true;
 
-				isAnswerCorrect = true;
+					finish();
+				}
+			});
 
-				finish();
-			}
-		});
+			isDestroyed = false;
+		} catch (Exception e){
+			Log.e(TAG,"Error: " + e.getMessage());
+			e.printStackTrace();
 
-		isDestroyed = false;
+			Toast.makeText(this, "[LockActivity]Ошибка: " + e.getMessage(), Toast.LENGTH_LONG).show();
+		}
+	}
+
+	private boolean isFocused = false;
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+
+		isFocused = hasFocus;
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+
+		try {
+			boolean isAdmin = mDevicePolicyManager.isAdminActive(mComponentName);
+
+			if (isAdmin){
+				if (!isAnswerCorrect && isFocused) {
+					mDevicePolicyManager.lockNow();
+
+					finish();
+				} else Log.d(TAG,"Answer correct, not locked!");
+			} else Toast.makeText(this, "Вы не выдали права администратора, приложение может работать некорректно!", Toast.LENGTH_SHORT).show();
+		} catch (Exception e){
+			Log.e(TAG,"Error: " + e.getMessage());
+			e.printStackTrace();
+
+			Toast.makeText(this, "[LockActivity] onDestroy: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+		}
+
+		Log.e(TAG,"Paused!");
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 
-		boolean isAdmin = mDevicePolicyManager.isAdminActive(mComponentName);
-
-		if (isAdmin){
-			if (!isAnswerCorrect) {
-				mDevicePolicyManager.lockNow();
-			} else Log.d(TAG,"Answer correct, not locked!");
-		} else Toast.makeText(this, "Вы не выдали права администратора, приложение может работать некорректно!", Toast.LENGTH_SHORT).show();
-
 		isDestroyed = true;
 
-		Log.d(TAG,"onDestroy");
+		Log.e(TAG,"Destroyed");
 	}
 
 	@Override
@@ -121,35 +153,50 @@ public class LockActivity extends AppCompatActivity {
 		RelativeLayout layout = findViewById(R.id.mainXml);
 
 		layout.setSystemUiVisibility(uiOptions);
+
+		if (!isDestroyed) {
+			LockScreenService.enqueueWork(this, new Intent(Intent.ACTION_SCREEN_ON));
+		}
+
+		Log.e(TAG,"Resumed");
 	}
 
 	private void continueAfterRequest(){
-		int selectedLevel = PersistenceStorage.getIntProperty("level");
+		try {
+			PersistenceStorage.init(this);
 
-		TextView firstProblemTextView = findViewById(R.id.firstCase);
-		TextView secondProblemTextView = findViewById(R.id.secondCase);
-		TextView thirdProblemTextView = findViewById(R.id.thirdCase);
+			int selectedLevel = PersistenceStorage.getIntProperty("level");
 
-		mFirstProblem = ProblemGenerator.generate(selectedLevel);
-		firstProblemTextView.setText(mFirstProblem.getProblemStringWithEqualsMark());
+			TextView firstProblemTextView = findViewById(R.id.firstCase);
+			TextView secondProblemTextView = findViewById(R.id.secondCase);
+			TextView thirdProblemTextView = findViewById(R.id.thirdCase);
 
-		mSecondProblem = ProblemGenerator.generate(selectedLevel);
-		secondProblemTextView.setText(mSecondProblem.getProblemStringWithEqualsMark());
+			mFirstProblem = ProblemGenerator.generate(selectedLevel);
+			firstProblemTextView.setText(mFirstProblem.getProblemStringWithEqualsMark());
 
-		mThirdProblem = ProblemGenerator.generate(selectedLevel);
-		thirdProblemTextView.setText(mThirdProblem.getProblemStringWithEqualsMark());
+			mSecondProblem = ProblemGenerator.generate(selectedLevel);
+			secondProblemTextView.setText(mSecondProblem.getProblemStringWithEqualsMark());
 
-		Drawable wallpaperDrawable = WallpaperManager.getInstance(this).getDrawable();
+			mThirdProblem = ProblemGenerator.generate(selectedLevel);
+			thirdProblemTextView.setText(mThirdProblem.getProblemStringWithEqualsMark());
 
-		ImageView imageView = findViewById(R.id.wallpaper);
-		imageView.setImageDrawable(wallpaperDrawable);
+			Drawable wallpaperDrawable = WallpaperManager.getInstance(this).getDrawable();
 
-		BitmapDrawable originalDrawable = (BitmapDrawable) imageView.getDrawable();
+			ImageView imageView = findViewById(R.id.wallpaper);
+			imageView.setImageDrawable(wallpaperDrawable);
 
-		Bitmap originalBitmap = originalDrawable.getBitmap();
-		Bitmap blurredBitmap = BlurBuilder.getBitmapWithBlur(LockActivity.this, originalBitmap);
+			BitmapDrawable originalDrawable = (BitmapDrawable) imageView.getDrawable();
 
-		imageView.setImageBitmap(blurredBitmap);
+			Bitmap originalBitmap = originalDrawable.getBitmap();
+			Bitmap blurredBitmap = BlurBuilder.getBitmapWithBlur(LockActivity.this, originalBitmap);
+
+			imageView.setImageBitmap(blurredBitmap);
+		} catch (Exception e){
+			Log.e(TAG,"continueAfterRequest: " + e.getMessage());
+			e.printStackTrace();
+
+			Toast.makeText(this, "continueAfterRequest: " + e.getMessage(), Toast.LENGTH_LONG).show();
+		}
 	}
 
 	@Override

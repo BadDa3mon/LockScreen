@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import badda3mon.lockscreen.R;
@@ -76,14 +77,16 @@ public class LockScreenForegroundService extends Service {
 
 		try {
 			registerReceiver(mLockScreenReceiver, filter);
-		} catch (IllegalArgumentException e){
+
+			mHandler.postDelayed(() -> {
+				checkAndUpdateReceiver();
+			},3000);
+		} catch (Exception e){
 			Log.e(TAG,"Error: " + e.getMessage());
 			e.printStackTrace();
-		}
 
-		mHandler.postDelayed(() -> {
-			checkAndUpdateReceiver();
-		},3000);
+			Toast.makeText(this, "[LockFGService]Ошибка: " + e.getMessage(), Toast.LENGTH_LONG).show();
+		}
 
 		Log.d(TAG,"checkAndUpdateReceiver()");
 	}

@@ -14,7 +14,7 @@ public class ProblemGenerator {
 
         if (level == 1){
             firstNumber = random.nextInt(11);
-            secondNumber = random.nextInt(10 - firstNumber);
+            secondNumber = random.nextInt(11 - firstNumber);
 
             operationValue = random.nextInt(2); // 0 -> +, 1 -> -
 
@@ -26,7 +26,7 @@ public class ProblemGenerator {
             }
         } else if (level == 2){
             firstNumber = random.nextInt(51);
-            secondNumber = random.nextInt(50 - firstNumber);
+            secondNumber = random.nextInt(51 - firstNumber);
 
             operationValue = random.nextInt(2); // 0 -> +, 1 -> -
 
@@ -41,7 +41,7 @@ public class ProblemGenerator {
 
             if (operationValue == 0 || operationValue == 1) {
                 firstNumber = random.nextInt(21);
-                secondNumber = random.nextInt(20 - firstNumber);
+                secondNumber = random.nextInt(21 - firstNumber);
 
                 if (operationValue == 0) acceptAnswer = firstNumber + secondNumber;
                 else {
@@ -70,7 +70,7 @@ public class ProblemGenerator {
 
             if (operationValue == 0 || operationValue == 1) {
                 firstNumber = random.nextInt(51);
-                secondNumber = random.nextInt(50 - firstNumber);
+                secondNumber = random.nextInt(51 - firstNumber);
 
                 if (operationValue == 0) acceptAnswer = firstNumber + secondNumber;
                 else {
