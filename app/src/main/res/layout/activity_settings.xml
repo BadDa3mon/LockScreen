@@ -32,7 +32,7 @@
                 android:background="#77777777"/>
 
         <RadioButton
-                android:text="Level 1"
+                android:text="@string/level_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/level1_rb"
@@ -51,7 +51,7 @@
                 android:background="#77777777"/>
 
         <RadioButton
-                android:text="Level 2"
+                android:text="@string/level_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/level2_rb"
@@ -70,7 +70,7 @@
                 android:background="#77777777"/>
 
         <RadioButton
-                android:text="Level 3"
+                android:text="@string/level_3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/level3_rb"
@@ -89,7 +89,7 @@
                 android:background="#77777777"/>
 
         <RadioButton
-                android:text="Level 4"
+                android:text="@string/level_4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/level4_rb"
@@ -108,7 +108,7 @@
                 android:background="#77777777"/>
 
         <RadioButton
-                android:text="Level 5"
+                android:text="@string/level_5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/level5_rb"

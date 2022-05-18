@@ -84,8 +84,6 @@ public class LockScreenForegroundService extends Service {
 		} catch (Exception e){
 			Log.e(TAG,"Error: " + e.getMessage());
 			e.printStackTrace();
-
-			Toast.makeText(this, "[LockFGService]Ошибка: " + e.getMessage(), Toast.LENGTH_LONG).show();
 		}
 	}
 

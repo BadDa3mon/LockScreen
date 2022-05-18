@@ -37,7 +37,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:ems="10"
             android:id="@+id/master_key_et"
             android:layout_above="@id/master_key_ok_btn"
             android:layout_marginBottom="130dp"
@@ -52,7 +51,8 @@
             android:textColorHint="#FF777777"
             android:textColorHighlight="@color/black"
             android:textColorLink="@color/black"
-            android:textCursorDrawable="@null"/>
+            android:textCursorDrawable="@null"
+            android:maxLength="3"/>
 
     <Button
             android:text="OK"

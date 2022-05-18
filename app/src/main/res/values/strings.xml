@@ -13,6 +13,12 @@
 
     <string name="admin_permission_description">For lock and unlock screen</string>
 
+    <string name="level_1">Level 1</string>
+    <string name="level_2">Level 2</string>
+    <string name="level_3">Level 3</string>
+    <string name="level_4">Level 4</string>
+    <string name="level_5">Level 5</string>
+
     <string name="first_phone">Phone 1</string>
     <string name="second_phone">Phone 2</string>
 
@@ -30,7 +36,12 @@
     <string name="save">Save</string>
 
     <string name="master_key_title">Master-key</string>
+    
+    <string name="welcome">Welcome</string>
+    <string name="invalid_key">Invalid key</string>
+    <string name="enter_key">Enter key</string>
+    <string name="key_saved">Key saved</string>
+    <string name="changes_saved">Changes saved</string>
 
-    <string name="tel1" translatable="false">TEL 1</string>
-    <string name="tel2" translatable="false">TEL 2</string>
+    <string name="denied_permission">Without permissions, the application may not work correctly</string>
 </resources>

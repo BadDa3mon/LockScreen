@@ -97,13 +97,12 @@
             <EditText
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:ems="10"
+                    android:inputType="numberDecimal"
                     android:id="@+id/first_answer_et"
                     android:hint="0"
                     android:singleLine="true"
                     android:gravity="center"
-                    android:textSize="54sp"
+                    android:textSize="50sp"
                     android:textColor="@color/black"
                     android:backgroundTint="@color/white"
                     android:textColorHint="#FF777777"
@@ -111,7 +110,8 @@
                     android:textColorLink="@color/black"
                     android:textCursorDrawable="@null"
                     android:digits="0123456789"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:maxLength="3"/>
         </LinearLayout>
 
         <LinearLayout
@@ -167,13 +167,12 @@
             <EditText
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:ems="10"
+                    android:inputType="numberDecimal"
                     android:id="@+id/second_answer_et"
                     android:hint="0"
                     android:singleLine="true"
                     android:gravity="center"
-                    android:textSize="54sp"
+                    android:textSize="50sp"
                     android:textColor="@color/black"
                     android:backgroundTint="@color/white"
                     android:textColorHint="#FF777777"
@@ -181,7 +180,8 @@
                     android:textColorLink="@color/black"
                     android:textCursorDrawable="@null"
                     android:digits="0123456789"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:maxLength="3"/>
 
         </LinearLayout>
 
@@ -238,13 +238,12 @@
             <EditText
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:ems="10"
+                    android:inputType="numberDecimal"
                     android:id="@+id/third_answer_et"
                     android:hint="0"
                     android:singleLine="true"
                     android:gravity="center"
-                    android:textSize="54sp"
+                    android:textSize="50sp"
                     android:textColor="@color/black"
                     android:backgroundTint="@color/white"
                     android:textColorHint="#FF777777"
@@ -252,7 +251,8 @@
                     android:textColorLink="@color/black"
                     android:textCursorDrawable="@null"
                     android:digits="0123456789"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:maxLength="3"/>
 
         </LinearLayout>
 
@@ -286,7 +286,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Phone 1"
+                android:text="@string/first_phone"
                 android:layout_marginEnd="5dp"
                 android:backgroundTint="@color/buttons_bg_color"
                 android:textColor="@color/white"/>
@@ -296,7 +296,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/buttons_bg_color"
-                android:text="Phone 2"
+                android:text="@string/second_phone"
                 android:layout_weight="1"
                 android:layout_marginStart="5dp"
                 android:textColor="@color/white"/>

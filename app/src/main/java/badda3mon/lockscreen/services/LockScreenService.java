@@ -46,9 +46,6 @@ public class LockScreenService extends JobIntentService {
 		} catch (Exception e){
 			Log.e(TAG,"Error: " + e.getMessage());
 			e.printStackTrace();
-
-			if (Looper.myLooper() == null) Looper.prepare();
-			Toast.makeText(this, "[LockService]Ошибка: " + e.getMessage(), Toast.LENGTH_LONG).show();
 		}
 	}
 

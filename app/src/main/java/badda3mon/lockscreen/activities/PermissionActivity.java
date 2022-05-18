@@ -22,8 +22,6 @@ import androidx.core.content.ContextCompat;
 import badda3mon.lockscreen.R;
 import badda3mon.lockscreen.receivers.MainAdminReceiver;
 
-import java.util.Arrays;
-
 public class PermissionActivity extends AppCompatActivity {
 	private static final String TAG = "PermissionActivity";
 
@@ -103,7 +101,7 @@ public class PermissionActivity extends AppCompatActivity {
 		if (requestCode == 123 && mCountPerms != mMaxPermsCount){
 			for (int i : grantResults){
 				if (i != PackageManager.PERMISSION_GRANTED){
-					Toast.makeText(this, "Без разрешения приложение может работать некорректно!", Toast.LENGTH_SHORT).show();
+					Toast.makeText(this, R.string.denied_permission, Toast.LENGTH_SHORT).show();
 				}
 			}
 

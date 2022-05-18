@@ -49,6 +49,10 @@ public class LockActivity extends AppCompatActivity {
 	private Problem mSecondProblem;
 	private Problem mThirdProblem;
 
+	private EditText mFirstAnswerEt;
+	private EditText mSecondAnswerEt;
+	private EditText mThirdAnswerEt;
+
 	private boolean isAnswerCorrect = false;
 
 	public static boolean isDestroyed = true;
@@ -61,7 +65,7 @@ public class LockActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_lock);
 		try {
-//			getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG);
+			getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG);
 			getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN
 					| WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
 					| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
@@ -83,6 +87,7 @@ public class LockActivity extends AppCompatActivity {
 
 				callToNumber(number);
 			});
+
 			Button tel2Button = findViewById(R.id.tel2_button);
 			tel2Button.setOnClickListener(v -> {
 				String number = PersistenceStorage.getStringProperty("tel2");
@@ -90,20 +95,17 @@ public class LockActivity extends AppCompatActivity {
 				callToNumber(number);
 			});
 
+			mFirstAnswerEt = findViewById(R.id.first_answer_et);
+			mSecondAnswerEt = findViewById(R.id.second_answer_et);
+			mThirdAnswerEt = findViewById(R.id.third_answer_et);
+
 			Button btnUnlock = findViewById(R.id.checkAnswerButton);
 			btnUnlock.setOnClickListener(v -> {
 				isStartCall = false;
 
-				int firstUserAnswer, secondUserAnswer, thirdUserAnswer;
-
-				EditText firstAnswer = findViewById(R.id.first_answer_et);
-				firstUserAnswer = Integer.parseInt(firstAnswer.getText().toString());
-
-				EditText secondAnswer = findViewById(R.id.second_answer_et);
-				secondUserAnswer = Integer.parseInt(secondAnswer.getText().toString());
-
-				EditText thirdAnswer = findViewById(R.id.third_answer_et);
-				thirdUserAnswer = Integer.parseInt(thirdAnswer.getText().toString());
+				int firstUserAnswer = Integer.parseInt(mFirstAnswerEt.getText().toString());
+				int secondUserAnswer = Integer.parseInt(mSecondAnswerEt.getText().toString());
+				int thirdUserAnswer = Integer.parseInt(mThirdAnswerEt.getText().toString());
 
 				Log.d(TAG,mFirstProblem.getRightAnswer() + " / " + firstUserAnswer);
 				Log.d(TAG,mSecondProblem.getRightAnswer() + " / " + secondUserAnswer);
@@ -123,8 +125,6 @@ public class LockActivity extends AppCompatActivity {
 		} catch (Exception e){
 			Log.e(TAG,"Error: " + e.getMessage());
 			e.printStackTrace();
-
-			Toast.makeText(this, "[LockActivity]Ошибка: " + e.getMessage(), Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -209,12 +209,10 @@ public class LockActivity extends AppCompatActivity {
 				if (!isAnswerCorrect) {
 					mDevicePolicyManager.lockNow();
 				} else Log.d(TAG,"Answer correct, not locked!");
-			} else Toast.makeText(this, "Вы не выдали права администратора, приложение может работать некорректно!", Toast.LENGTH_SHORT).show();
+			}
 		} catch (Exception e){
 			Log.e(TAG,"Error: " + e.getMessage());
 			e.printStackTrace();
-
-			Toast.makeText(this, "[LockActivity] onDestroy: " + e.getMessage(), Toast.LENGTH_SHORT).show();
 		}
 
 		isDestroyed = true;
@@ -255,20 +253,22 @@ public class LockActivity extends AppCompatActivity {
 			mThirdProblem = ProblemGenerator.generate(selectedLevel);
 			initProblemByRow(3, mThirdProblem);
 
-			Drawable wallpaperDrawable = WallpaperManager.getInstance(this).getDrawable();
+			ImageView bgImageView = findViewById(R.id.bg_wallpaper_iv);
 
-			BitmapDrawable originalDrawable = (BitmapDrawable) wallpaperDrawable;
+			if (ContextCompat.checkSelfPermission(this,Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+				Drawable wallpaperDrawable = WallpaperManager.getInstance(this).getDrawable();
 
-			Bitmap originalBitmap = originalDrawable.getBitmap();
-			Bitmap blurredBitmap = BlurBuilder.getBitmapWithBlur(this, originalBitmap);
+				BitmapDrawable originalDrawable = (BitmapDrawable) wallpaperDrawable;
 
-			ImageView imageView = findViewById(R.id.bg_wallpaper_iv);
-			imageView.setImageBitmap(blurredBitmap);
+				Bitmap originalBitmap = originalDrawable.getBitmap();
+				Bitmap blurredBitmap = BlurBuilder.getBitmapWithBlur(this, originalBitmap);
+
+				bgImageView.setImageBitmap(blurredBitmap);
+				bgImageView.setVisibility(View.VISIBLE);
+			} else bgImageView.setVisibility(View.GONE);
 		} catch (Exception e){
 			Log.e(TAG,"continueAfterRequest: " + e.getMessage());
 			e.printStackTrace();
-
-			Toast.makeText(this, "continueAfterRequest: " + e.getMessage(), Toast.LENGTH_LONG).show();
 		}
 	}
 

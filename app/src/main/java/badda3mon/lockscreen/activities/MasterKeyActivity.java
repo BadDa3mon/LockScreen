@@ -31,23 +31,23 @@ public class MasterKeyActivity extends AppCompatActivity {
 					String inputtedMasterKey = masterKeyEditable.toString();
 
 					if (savedMasterKey.equals(inputtedMasterKey)){
-						Toast.makeText(this, "Добро пожаловать!", Toast.LENGTH_SHORT).show();
+						Toast.makeText(this, R.string.welcome, Toast.LENGTH_SHORT).show();
 
 						startNextActivity();
 					} else {
-						Toast.makeText(this, "Неверный ключ!", Toast.LENGTH_SHORT).show();
+						Toast.makeText(this, R.string.invalid_key, Toast.LENGTH_SHORT).show();
 					}
-				} else Toast.makeText(this, "Введите ключ!", Toast.LENGTH_SHORT).show();
+				} else Toast.makeText(this, R.string.enter_key, Toast.LENGTH_SHORT).show();
 			} else {
 				if (masterKeyEditable != null && masterKeyEditable.length() > 0){
 					String inputtedMasterKey = masterKeyEditable.toString();
 
 					PersistenceStorage.addStringProperty("master_key", inputtedMasterKey);
 
-					Toast.makeText(this, "Ключ сохранён!", Toast.LENGTH_SHORT).show();
+					Toast.makeText(this, R.string.key_saved, Toast.LENGTH_SHORT).show();
 
 					startNextActivity();
-				} else Toast.makeText(this, "Введите ключ!", Toast.LENGTH_SHORT).show();
+				} else Toast.makeText(this, R.string.enter_key, Toast.LENGTH_SHORT).show();
 			}
 		});
 	}

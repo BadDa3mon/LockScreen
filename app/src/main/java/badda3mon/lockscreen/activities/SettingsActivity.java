@@ -101,7 +101,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 			PersistenceStorage.addStringProperty("tel2", second);
 
-			Toast.makeText(this, "Изменения сохранены!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, R.string.changes_saved, Toast.LENGTH_SHORT).show();
 		});
 
 		Intent foregroundServiceIntent = new Intent(SettingsActivity.this, LockScreenForegroundService.class);
@@ -113,8 +113,6 @@ public class SettingsActivity extends AppCompatActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-
-		checkIfUserHasAccess();
 
 		if (isInitialized) {
 			Intent intent = new Intent(this, MasterKeyActivity.class);
@@ -129,53 +127,26 @@ public class SettingsActivity extends AppCompatActivity {
 	private RadioButton getRadioButtonByLevel(int level) throws Exception {
 		RadioButton radioButton;
 
-		switch (level){
-			case 1: radioButton = findViewById(R.id.level1_rb); break;
-			case 2: radioButton = findViewById(R.id.level2_rb); break;
-			case 3: radioButton = findViewById(R.id.level3_rb); break;
-			case 4: radioButton = findViewById(R.id.level4_rb); break;
-			case 5: radioButton = findViewById(R.id.level5_rb); break;
-			default: throw new Exception("Incorrect level: " + level);
+		switch (level) {
+			case 1:
+				radioButton = findViewById(R.id.level1_rb);
+				break;
+			case 2:
+				radioButton = findViewById(R.id.level2_rb);
+				break;
+			case 3:
+				radioButton = findViewById(R.id.level3_rb);
+				break;
+			case 4:
+				radioButton = findViewById(R.id.level4_rb);
+				break;
+			case 5:
+				radioButton = findViewById(R.id.level5_rb);
+				break;
+			default:
+				throw new Exception("Incorrect level: " + level);
 		}
 
 		return radioButton;
-	}
-
-	private void checkIfUserHasAccess(){
-		String URLString = "https://badda3mon.ru/checkAccessToLockScreen.php";
-
-		Thread thread = new Thread(() -> {
-			try {
-				URL url = new URL(URLString);
-				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-				InputStream inputStream = connection.getInputStream();
-				InputStreamReader streamReader = new InputStreamReader(inputStream);
-
-				BufferedReader bufferedReader = new BufferedReader(streamReader);
-
-				String answer = bufferedReader.readLine();
-
-				Log.e(TAG,"Access granted? -> " + answer);
-
-				if (!answer.equals("true")) runOnUiThread(() -> {
-					finishAffinity();
-
-					Toast.makeText(this, "Доступ к приложение закрыт! Обратитесь в телеграм: t.me/badda3mon", Toast.LENGTH_LONG).show();
-				});
-
-				connection.disconnect();
-			} catch (IOException e){
-				Log.e(TAG,"Error: " + e.getMessage());
-				e.printStackTrace();
-
-				runOnUiThread(() -> {
-					Toast.makeText(this, "Доступ к приложение закрыт! Обратитесь в телеграм: t.me/badda3mon", Toast.LENGTH_LONG).show();
-
-					finishAffinity();
-				});
-			}
-		});
-		thread.start();
 	}
 }
