@@ -103,21 +103,28 @@ public class LockActivity extends AppCompatActivity {
 			btnUnlock.setOnClickListener(v -> {
 				isStartCall = false;
 
-				int firstUserAnswer = Integer.parseInt(mFirstAnswerEt.getText().toString());
-				int secondUserAnswer = Integer.parseInt(mSecondAnswerEt.getText().toString());
-				int thirdUserAnswer = Integer.parseInt(mThirdAnswerEt.getText().toString());
+				try {
+					int firstUserAnswer = Integer.parseInt(mFirstAnswerEt.getText().toString());
+					int secondUserAnswer = Integer.parseInt(mSecondAnswerEt.getText().toString());
+					int thirdUserAnswer = Integer.parseInt(mThirdAnswerEt.getText().toString());
 
-				Log.d(TAG,mFirstProblem.getRightAnswer() + " / " + firstUserAnswer);
-				Log.d(TAG,mSecondProblem.getRightAnswer() + " / " + secondUserAnswer);
-				Log.d(TAG,mThirdProblem.getRightAnswer() + " / " + thirdUserAnswer);
+					Log.d(TAG,mFirstProblem.getRightAnswer() + " / " + firstUserAnswer);
+					Log.d(TAG,mSecondProblem.getRightAnswer() + " / " + secondUserAnswer);
+					Log.d(TAG,mThirdProblem.getRightAnswer() + " / " + thirdUserAnswer);
 
-				if (mFirstProblem.getRightAnswer() == firstUserAnswer &&
-						mSecondProblem.getRightAnswer() == secondUserAnswer &&
-						mThirdProblem.getRightAnswer() == thirdUserAnswer){
-					isAnswerCorrect = true;
-					isNeedDestroy = true;
+					if (mFirstProblem.getRightAnswer() == firstUserAnswer &&
+							mSecondProblem.getRightAnswer() == secondUserAnswer &&
+							mThirdProblem.getRightAnswer() == thirdUserAnswer){
+						isAnswerCorrect = true;
+						isNeedDestroy = true;
 
-					finishAndRemoveTask();
+						finishAndRemoveTask();
+					}
+				} catch (NumberFormatException e){
+					isAnswerCorrect = false;
+					isNeedDestroy = false;
+
+					Toast.makeText(this, "Введите ответы и нажмите ОК!", Toast.LENGTH_SHORT).show();
 				}
 			});
 
