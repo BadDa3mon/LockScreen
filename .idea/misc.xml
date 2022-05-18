@@ -3,9 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Android/LockScreen/app/src/main/res/layout/activity_lock.xml" value="0.17135416666666667" />
+        <entry key="..\:/Android/LockScreen/app/src/main/res/drawable/level_button.xml" value="0.2015625" />
+        <entry key="..\:/Android/LockScreen/app/src/main/res/layout/activity_lock.xml" value="0.2" />
         <entry key="..\:/Android/LockScreen/app/src/main/res/layout/activity_main.xml" value="0.18541666666666667" />
+        <entry key="..\:/Android/LockScreen/app/src/main/res/layout/activity_master_key.xml" value="0.18541666666666667" />
+        <entry key="..\:/Android/LockScreen/app/src/main/res/layout/activity_permission.xml" value="0.25" />
+        <entry key="..\:/Android/LockScreen/app/src/main/res/layout/activity_settings.xml" value="0.25" />
         <entry key="..\:/Android/LockScreen/app/src/main/res/layout/dialog_lockscreen.xml" value="0.184375" />
+        <entry key="..\:/Android/LockScreen/app/src/main/res/layout/dialog_master_key.xml" value="0.184375" />
+        <entry key="..\:/Android/LockScreen/app/src/main/res/layout/dialog_request_permission.xml" value="0.184375" />
         <entry key="..\:/Android/LockScreen/app/src/main/res/xml/admin.xml" value="0.18541666666666667" />
       </map>
     </option>

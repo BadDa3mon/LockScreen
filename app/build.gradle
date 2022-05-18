@@ -29,6 +29,10 @@ android {
 
 dependencies {
 
+    //YANDEX ADS
+    implementation 'com.yandex.android:mobileads:5.1.0'
+    implementation 'com.yandex.android:mobmetricalib:4.2.0'
+
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.6.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'

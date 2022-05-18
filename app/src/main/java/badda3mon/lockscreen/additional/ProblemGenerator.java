@@ -127,7 +127,7 @@ public class ProblemGenerator {
 
         operationMark = getOperationMarkByType(operationValue);
 
-        return new Problem(operationMark, getProblemString(firstNumber, secondNumber, operationValue), acceptAnswer);
+        return new Problem(firstNumber, secondNumber, operationMark, acceptAnswer);
     }
 
     private static String getProblemString(int firstNumber, int secondNumber, int operationValue){

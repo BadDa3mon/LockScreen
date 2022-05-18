@@ -1,8 +1,36 @@
 <resources>
-    <string name="app_name">LockScreen</string>
+    <string name="app_name" translatable="false">WoonderKinder</string>
 
-    <string name="notification_channel_id">LOCKSCREEN_CHANNEL</string>
-    <string name="notification_channel_name">LockScreenService</string>
+    <string name="master_key_hint">Specify the desired PIN code to log in to the application at a later time.</string>
+    <string name="permission_hint">Next, the application will ask you for permission for the following services of your device</string>
+    <string name="permission_list">
+        Read storage: to set your device\'s wallpaper as the background of your lock screen\n
+        Disable battery optimizing: for the lock screen and the service to run in the background\n
+        Device administration: to be able to lock the screen\n
+        Phone state and calls: to check the call from the lock screen and to be able to call the parent\'s number\n
+        Draw overlays: for launch and showing lockscreen always if need
+    </string>
 
-    <string name="current_level">Текущий уровень: %d</string>
+    <string name="admin_permission_description">For lock and unlock screen</string>
+
+    <string name="first_phone">Phone 1</string>
+    <string name="second_phone">Phone 2</string>
+
+    <string name="notification_channel_id" translatable="false">LOCKSCREEN_CHANNEL</string>
+    <string name="notification_channel_name" translatable="false">LockScreenService</string>
+
+    <string name="current_level">Current level: %d</string>
+
+    <string name="request_permission_title">Request permission</string>
+    <string name="request_permission_info">We need permission %s, %1s</string>
+
+    <string name="cancel">Cancel</string>
+    <string name="grant">Grant</string>
+    <string name="confirm">Confirm</string>
+    <string name="save">Save</string>
+
+    <string name="master_key_title">Master-key</string>
+
+    <string name="tel1" translatable="false">TEL 1</string>
+    <string name="tel2" translatable="false">TEL 2</string>
 </resources>

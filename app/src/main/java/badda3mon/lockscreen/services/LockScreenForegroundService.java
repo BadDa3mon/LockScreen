@@ -11,7 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import badda3mon.lockscreen.R;
-import badda3mon.lockscreen.activities.MainActivity;
+import badda3mon.lockscreen.activities.SettingsActivity;
 import badda3mon.lockscreen.receivers.LockScreenReceiver;
 
 public class LockScreenForegroundService extends Service {
@@ -54,7 +54,7 @@ public class LockScreenForegroundService extends Service {
 	private void startForegroundWithNotification(){
 		String msg = "LockScreen worked!";
 
-		Intent notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
+		Intent notificationIntent = new Intent(getApplicationContext(), SettingsActivity.class);
 
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -87,8 +87,6 @@ public class LockScreenForegroundService extends Service {
 
 			Toast.makeText(this, "[LockFGService]Ошибка: " + e.getMessage(), Toast.LENGTH_LONG).show();
 		}
-
-		Log.d(TAG,"checkAndUpdateReceiver()");
 	}
 
 	private void createNotificationChannel(){

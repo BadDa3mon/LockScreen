@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="current_level">Текущий уровень: %d</string>
+
+    <string name="request_permission_title">Запрос разрешения</string>
+    <string name="request_permission_info">Нам необходимо разрешение %s, %1s</string>
+
+    <string name="cancel">Отмена</string>
+    <string name="grant">Разрешить</string>
+    <string name="confirm">Подтвердить</string>
+
+    <string name="permission_storage_name">на чтение памяти</string>
+    <string name="permission_storage_info">для установки обоев вашего устройства на задний план экрана блокировки</string>
+
+    <string name="permission_battery_name">на отключение оптимизации батареи</string>
+    <string name="permission_battery_info">для работы экрана блокировки и сервиса в фоновом режиме</string>
+
+    <string name="permission_admin_name">на администрацию устройством</string>
+    <string name="permission_admin_info">для возможность блокировки экрана</string>
+
+    <string name="permission_phone_name">состояния звонка</string>
+    <string name="permission_phone_info">для проверки звонка с экрана блокировки</string>
+
+    <string name="permission_call_name">на звонки</string>
+    <string name="permission_call_info">для возможности вызова номера родителя с экрана блокировки</string>
+
+    <string name="master_key_title">Мастер-ключ</string>
+</resources>

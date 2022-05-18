@@ -1,20 +1,14 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
     <style name="Theme.LockScreen" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorControlNormal">@color/black</item>
         <item name="colorControlActivated">@color/buttons_bg_color</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">#FFFFFFFF</item>
         <item name="android:navigationBarColor">#FFFFFFFF</item>
+        <item name="android:windowLightStatusBar">true</item>
         <item name="textInputStyle">@style/TextInputLayoutStyle</item>
         <!-- Customize your theme here. -->
-    </style>
-
-    <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="boxStrokeColor">@color/text_input_layout_stroke_color</item>
-        <item name="boxStrokeWidth">1dp</item>
-        <item name="errorEnabled">false</item>
-        <item name="hintTextColor">@color/white</item>
-        <item name="android:textColorHint">@color/white</item>
     </style>
 </resources>

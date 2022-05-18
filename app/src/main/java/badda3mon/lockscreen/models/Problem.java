@@ -1,19 +1,32 @@
 package badda3mon.lockscreen.models;
 
 public class Problem {
+	private int mFirstNumber;
+	private int mSecondNumber;
 	private String mOperationMark;
 	private String mProblemString;
 	private String mProblemStringWithEqualsMark;
 
 	private int mRightAnswer;
 
-	public Problem(String operationMark, String problemString, int rightAnswer){
+	public Problem(int first, int second, String operationMark, int rightAnswer){
+		mFirstNumber = first;
+		mSecondNumber = second;
+
 		mOperationMark = operationMark;
 
-		mProblemString = problemString;
+		mProblemString = first + " " + mOperationMark + " " + second;
 		mProblemStringWithEqualsMark = mProblemString + " = ";
 
 		mRightAnswer = rightAnswer;
+	}
+
+	public int getFirstNumber(){
+		return mFirstNumber;
+	}
+
+	public int getSecondNumber(){
+		return mSecondNumber;
 	}
 
 	public String getOperationMark(){

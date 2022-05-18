@@ -1,119 +1,307 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/mainXml"
-    tools:context=".activities.MainActivity"
-    tools:ignore="MissingClass">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/lock_layout"
+                tools:context=".activities.SettingsActivity"
+                android:background="@color/white">
 
     <ImageView
-        android:id="@+id/wallpaper"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop" />
+            android:id="@+id/bg_wallpaper_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            />
 
-    <RelativeLayout
-        android:id="@+id/base_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/rounded_corner"
-        android:backgroundTint="#77000000"
-        android:padding="10dp">
+    <com.yandex.mobile.ads.banner.BannerAdView
+            android:id="@+id/banner_ad_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
 
-        <TextView
-                android:id="@+id/firstCase"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#DDDFE4"
-                android:textSize="35sp"
-                tools:text="10 + 15 ="/>
-
-        <TextView
-                android:id="@+id/secondCase"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/firstCase"
-                android:layout_marginTop="25dp"
-                android:textColor="#DDDFE4"
-                android:textSize="35sp"
-                tools:text="12 - 8 ="/>
-
-        <TextView
-                android:id="@+id/thirdCase"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/secondCase"
-                android:layout_marginTop="25dp"
-                android:textColor="#DDDFE4"
-                android:textSize="35sp"
-                tools:text="15 * 2 ="/>
-
-        <EditText
-                android:id="@+id/firstAnswer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/firstCase"
-                android:layout_alignParentRight="true"
-                android:inputType="numberDecimal"
-                android:maxLength="3"
-                android:selectAllOnFocus="true"
-                android:text="000"
-                android:textColor="#DDDFE4"
-                android:textSize="25sp"/>
-
-        <EditText
-            android:id="@+id/secondAnswer"
+    <badda3mon.lockscreen.views.RobotoTextView
+            android:text="@string/app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/secondCase"
-            android:layout_alignParentRight="true"
-            android:inputType="numberDecimal"
-            android:maxLength="3"
-            android:selectAllOnFocus="true"
-            android:text="000"
-            android:textColor="#DDDFE4"
-            android:textSize="25sp" />
+            android:id="@+id/lock_app_name_tv"
+            android:textColor="@color/black"
+            android:textSize="40sp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:textAllCaps="true"
+            android:layout_below="@id/banner_ad_view"/>
 
-        <EditText
-            android:id="@+id/thirdAnswer"
-            android:layout_width="wrap_content"
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/thirdCase"
-            android:layout_alignParentRight="true"
-            android:inputType="numberDecimal"
-            android:maxLength="3"
-            android:selectAllOnFocus="true"
-            android:text="000"
-            android:textColor="#DDDFE4"
-            android:textSize="25sp" />
+            android:layout_below="@id/lock_app_name_tv"
+            android:layout_alignEnd="@id/lock_app_name_tv"
+            android:layout_alignStart="@id/lock_app_name_tv"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="50dp"
+            android:id="@+id/calc_layout">
 
-    </RelativeLayout>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/first_problem_layout">
+
+            <badda3mon.lockscreen.views.RobotoTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/first_num_tv"
+                    android:textColor="@color/black"
+                    android:textSize="48sp"
+                    android:textAllCaps="true"
+                    tools:text="7"
+                    android:layout_weight="1"
+                    android:gravity="center"/>
+
+            <badda3mon.lockscreen.views.RobotoTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/first_mark_num_tv"
+                    android:textColor="@color/black"
+                    android:textSize="48sp"
+                    android:textAllCaps="true"
+                    tools:text="+"
+                    android:layout_weight="1"
+                    android:gravity="center"/>
+
+            <badda3mon.lockscreen.views.RobotoTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/second_num_tv"
+                    android:textColor="@color/black"
+                    android:textSize="48sp"
+                    android:textAllCaps="true"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    tools:text="7"/>
+
+            <badda3mon.lockscreen.views.RobotoTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/equal_tv"
+                    android:textColor="@color/black"
+                    android:textSize="48sp"
+                    android:textAllCaps="true"
+                    android:text="="
+                    android:layout_weight="1"
+                    android:gravity="center"/>
+
+            <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/first_answer_et"
+                    android:hint="0"
+                    android:singleLine="true"
+                    android:gravity="center"
+                    android:textSize="54sp"
+                    android:textColor="@color/black"
+                    android:backgroundTint="@color/white"
+                    android:textColorHint="#FF777777"
+                    android:textColorHighlight="@color/black"
+                    android:textColorLink="@color/black"
+                    android:textCursorDrawable="@null"
+                    android:digits="0123456789"
+                    android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/second_problem_layout"
+                android:layout_marginTop="20dp">
+
+            <badda3mon.lockscreen.views.RobotoTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/first_num_tv2"
+                    android:textColor="@color/black"
+                    android:textSize="48sp"
+                    android:textAllCaps="true"
+                    tools:text="7"
+                    android:layout_weight="1"
+                    android:gravity="center"/>
+
+            <badda3mon.lockscreen.views.RobotoTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/second_mark_num_tv"
+                    android:textColor="@color/black"
+                    android:textSize="48sp"
+                    android:textAllCaps="true"
+                    tools:text="+"
+                    android:layout_weight="1"
+                    android:gravity="center"/>
+
+            <badda3mon.lockscreen.views.RobotoTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/second_num_tv2"
+                    android:textColor="@color/black"
+                    android:textSize="48sp"
+                    android:textAllCaps="true"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    tools:text="7"/>
+
+            <badda3mon.lockscreen.views.RobotoTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/equal_tv2"
+                    android:textColor="@color/black"
+                    android:textSize="48sp"
+                    android:textAllCaps="true"
+                    android:text="="
+                    android:layout_weight="1"
+                    android:gravity="center"/>
+
+            <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/second_answer_et"
+                    android:hint="0"
+                    android:singleLine="true"
+                    android:gravity="center"
+                    android:textSize="54sp"
+                    android:textColor="@color/black"
+                    android:backgroundTint="@color/white"
+                    android:textColorHint="#FF777777"
+                    android:textColorHighlight="@color/black"
+                    android:textColorLink="@color/black"
+                    android:textCursorDrawable="@null"
+                    android:digits="0123456789"
+                    android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/third_problem_layout"
+                android:layout_marginTop="20dp">
+
+            <badda3mon.lockscreen.views.RobotoTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/first_num_tv3"
+                    android:textColor="@color/black"
+                    android:textSize="48sp"
+                    android:textAllCaps="true"
+                    tools:text="7"
+                    android:layout_weight="1"
+                    android:gravity="center"/>
+
+            <badda3mon.lockscreen.views.RobotoTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/third_mark_num_tv"
+                    android:textColor="@color/black"
+                    android:textSize="48sp"
+                    android:textAllCaps="true"
+                    tools:text="+"
+                    android:layout_weight="1"
+                    android:gravity="center"/>
+
+            <badda3mon.lockscreen.views.RobotoTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/second_num_tv3"
+                    android:textColor="@color/black"
+                    android:textSize="48sp"
+                    android:textAllCaps="true"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    tools:text="7"/>
+
+            <badda3mon.lockscreen.views.RobotoTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/equal_tv3"
+                    android:textColor="@color/black"
+                    android:textSize="48sp"
+                    android:textAllCaps="true"
+                    android:text="="
+                    android:layout_weight="1"
+                    android:gravity="center"/>
+
+            <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/third_answer_et"
+                    android:hint="0"
+                    android:singleLine="true"
+                    android:gravity="center"
+                    android:textSize="54sp"
+                    android:textColor="@color/black"
+                    android:backgroundTint="@color/white"
+                    android:textColorHint="#FF777777"
+                    android:textColorHighlight="@color/black"
+                    android:textColorLink="@color/black"
+                    android:textCursorDrawable="@null"
+                    android:digits="0123456789"
+                    android:layout_weight="1"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 
     <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/checkAnswerButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/base_layout"
-            android:layout_alignStart="@id/base_layout"
-            android:layout_alignEnd="@id/base_layout"
+            android:layout_below="@id/calc_layout"
+            android:layout_alignStart="@id/lock_app_name_tv"
+            android:layout_alignEnd="@id/lock_app_name_tv"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20sp"
-            android:background="@drawable/rounded_corner"
-            android:backgroundTint="#FF777777"
-            android:text="Go!"
-            />
+            android:layout_marginTop="50dp"
+            android:text="OK"
+            android:backgroundTint="@color/buttons_bg_color"
+            android:textColor="@color/white"/>
 
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/checkAnswerButton"
+            android:layout_alignStart="@id/checkAnswerButton"
+            android:layout_alignEnd="@id/checkAnswerButton"
+            android:layout_marginTop="10dp">
 
+        <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/tel1_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Phone 1"
+                android:layout_marginEnd="5dp"
+                android:backgroundTint="@color/buttons_bg_color"
+                android:textColor="@color/white"/>
 
+        <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/tel2_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/buttons_bg_color"
+                android:text="Phone 2"
+                android:layout_weight="1"
+                android:layout_marginStart="5dp"
+                android:textColor="@color/white"/>
+
+    </LinearLayout>
 
 
 </RelativeLayout>

@@ -10,11 +10,13 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.*;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.core.app.ActivityCompat;
@@ -25,7 +27,13 @@ import badda3mon.lockscreen.additional.PersistenceStorage;
 import badda3mon.lockscreen.additional.ProblemGenerator;
 import badda3mon.lockscreen.models.Problem;
 import badda3mon.lockscreen.receivers.MainAdminReceiver;
-import badda3mon.lockscreen.services.LockScreenService;
+import badda3mon.lockscreen.views.RobotoTextView;
+import com.yandex.mobile.ads.banner.AdSize;
+import com.yandex.mobile.ads.banner.BannerAdEventListener;
+import com.yandex.mobile.ads.banner.BannerAdView;
+import com.yandex.mobile.ads.common.AdRequest;
+import com.yandex.mobile.ads.common.AdRequestError;
+import com.yandex.mobile.ads.common.ImpressionData;
 
 public class LockActivity extends AppCompatActivity {
 	private static final String TAG = "LockActivity";
@@ -35,6 +43,8 @@ public class LockActivity extends AppCompatActivity {
 	private DevicePolicyManager mDevicePolicyManager;
 	private ComponentName mComponentName;
 
+	private BannerAdView mBannerAdView;
+
 	private Problem mFirstProblem;
 	private Problem mSecondProblem;
 	private Problem mThirdProblem;
@@ -43,16 +53,21 @@ public class LockActivity extends AppCompatActivity {
 
 	public static boolean isDestroyed = true;
 
+	private boolean isNeedDestroy = false;
+	private boolean isStartCall = false;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_lock);
 		try {
-			getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG);
+//			getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG);
 			getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN
 					| WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
 					| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
 					| WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+
+			initAdBanner();
 
 			mDevicePolicyManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
 			mComponentName = new ComponentName(LockActivity.this, MainAdminReceiver.class);
@@ -62,17 +77,32 @@ public class LockActivity extends AppCompatActivity {
 				ActivityCompat.requestPermissions(this, perms, REQUEST_PERMISSIONS_CODE);
 			} else continueAfterRequest();
 
+			Button tel1Button = findViewById(R.id.tel1_button);
+			tel1Button.setOnClickListener(v -> {
+				String number = PersistenceStorage.getStringProperty("tel1");
+
+				callToNumber(number);
+			});
+			Button tel2Button = findViewById(R.id.tel2_button);
+			tel2Button.setOnClickListener(v -> {
+				String number = PersistenceStorage.getStringProperty("tel2");
+
+				callToNumber(number);
+			});
+
 			Button btnUnlock = findViewById(R.id.checkAnswerButton);
 			btnUnlock.setOnClickListener(v -> {
+				isStartCall = false;
+
 				int firstUserAnswer, secondUserAnswer, thirdUserAnswer;
 
-				EditText firstAnswer = findViewById(R.id.firstAnswer);
+				EditText firstAnswer = findViewById(R.id.first_answer_et);
 				firstUserAnswer = Integer.parseInt(firstAnswer.getText().toString());
 
-				EditText secondAnswer = findViewById(R.id.secondAnswer);
+				EditText secondAnswer = findViewById(R.id.second_answer_et);
 				secondUserAnswer = Integer.parseInt(secondAnswer.getText().toString());
 
-				EditText thirdAnswer = findViewById(R.id.thirdAnswer);
+				EditText thirdAnswer = findViewById(R.id.third_answer_et);
 				thirdUserAnswer = Integer.parseInt(thirdAnswer.getText().toString());
 
 				Log.d(TAG,mFirstProblem.getRightAnswer() + " / " + firstUserAnswer);
@@ -82,10 +112,10 @@ public class LockActivity extends AppCompatActivity {
 				if (mFirstProblem.getRightAnswer() == firstUserAnswer &&
 						mSecondProblem.getRightAnswer() == secondUserAnswer &&
 						mThirdProblem.getRightAnswer() == thirdUserAnswer){
-
 					isAnswerCorrect = true;
+					isNeedDestroy = true;
 
-					finish();
+					finishAndRemoveTask();
 				}
 			});
 
@@ -98,26 +128,86 @@ public class LockActivity extends AppCompatActivity {
 		}
 	}
 
-	private boolean isFocused = false;
+	private void callToNumber(String number){
+		isStartCall = true;
+
+		Intent intent = new Intent(Intent.ACTION_CALL);
+		intent.setData(Uri.parse("tel:" + number));
+
+		startActivity(intent);
+
+		Log.d(TAG,"callToNumber! isStartCall: " + isStartCall);
+	}
+
+	private void initAdBanner(){
+		mBannerAdView = findViewById(R.id.banner_ad_view);
+		mBannerAdView.setAdUnitId("R-M-DEMO-320x50-app_install");
+		mBannerAdView.setAdSize(AdSize.BANNER_320x50);
+		mBannerAdView.setVisibility(View.VISIBLE);
+		mBannerAdView.setLayerType(View.LAYER_TYPE_SOFTWARE,null);
+
+		AdRequest adRequest = new AdRequest.Builder().build();
+
+		mBannerAdView.setBannerAdEventListener(new BannerAdEventListener() {
+			@Override
+			public void onAdLoaded() {
+				Log.d(TAG,"onAdLoaded!");
+			}
+
+			@Override
+			public void onAdFailedToLoad(@NonNull AdRequestError adRequestError) {
+				Log.e(TAG,"onAdFailedToLoad: " + adRequestError.getCode() + " / " + adRequestError.getDescription());
+			}
+
+			@Override
+			public void onAdClicked() {
+				isNeedDestroy = true;
+				Log.d(TAG,"onAdClicked!");
+			}
+
+			@Override
+			public void onLeftApplication() {
+				Log.d(TAG,"onLeftApplication");
+			}
+
+			@Override
+			public void onReturnedToApplication() {
+				Log.d(TAG,"onReturnedToApplication");
+			}
+
+			@Override
+			public void onImpression(@Nullable ImpressionData impressionData) {
+				Log.d(TAG,"onImpression: ...");
+			}
+		});
+
+		mBannerAdView.loadAd(adRequest);
+	}
+
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
 
-		isFocused = hasFocus;
+		Log.d(TAG,"isFinishing: " + isFinishing() + ", hasFocus: " + hasFocus + ", isStartCall: " + isStartCall);
+
+		if (!isFinishing() && !isStartCall)
+			if (!hasFocus || isNeedDestroy) {
+				finishAndRemoveTask();
+
+				Log.d(TAG,"Finish from onWindowFocusChanged!");
+			}
 	}
 
 	@Override
-	protected void onPause() {
-		super.onPause();
+	protected void onDestroy() {
+		super.onDestroy();
 
 		try {
 			boolean isAdmin = mDevicePolicyManager.isAdminActive(mComponentName);
 
 			if (isAdmin){
-				if (!isAnswerCorrect && isFocused) {
+				if (!isAnswerCorrect) {
 					mDevicePolicyManager.lockNow();
-
-					finish();
 				} else Log.d(TAG,"Answer correct, not locked!");
 			} else Toast.makeText(this, "Вы не выдали права администратора, приложение может работать некорректно!", Toast.LENGTH_SHORT).show();
 		} catch (Exception e){
@@ -126,13 +216,6 @@ public class LockActivity extends AppCompatActivity {
 
 			Toast.makeText(this, "[LockActivity] onDestroy: " + e.getMessage(), Toast.LENGTH_SHORT).show();
 		}
-
-		Log.e(TAG,"Paused!");
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
 
 		isDestroyed = true;
 
@@ -150,13 +233,9 @@ public class LockActivity extends AppCompatActivity {
 				| View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
 				| View.SYSTEM_UI_FLAG_IMMERSIVE;
 
-		RelativeLayout layout = findViewById(R.id.mainXml);
+		RelativeLayout layout = findViewById(R.id.lock_layout);
 
 		layout.setSystemUiVisibility(uiOptions);
-
-		if (!isDestroyed) {
-			LockScreenService.enqueueWork(this, new Intent(Intent.ACTION_SCREEN_ON));
-		}
 
 		Log.e(TAG,"Resumed");
 	}
@@ -167,29 +246,23 @@ public class LockActivity extends AppCompatActivity {
 
 			int selectedLevel = PersistenceStorage.getIntProperty("level");
 
-			TextView firstProblemTextView = findViewById(R.id.firstCase);
-			TextView secondProblemTextView = findViewById(R.id.secondCase);
-			TextView thirdProblemTextView = findViewById(R.id.thirdCase);
-
 			mFirstProblem = ProblemGenerator.generate(selectedLevel);
-			firstProblemTextView.setText(mFirstProblem.getProblemStringWithEqualsMark());
+			initProblemByRow(1, mFirstProblem);
 
 			mSecondProblem = ProblemGenerator.generate(selectedLevel);
-			secondProblemTextView.setText(mSecondProblem.getProblemStringWithEqualsMark());
+			initProblemByRow(2, mSecondProblem);
 
 			mThirdProblem = ProblemGenerator.generate(selectedLevel);
-			thirdProblemTextView.setText(mThirdProblem.getProblemStringWithEqualsMark());
+			initProblemByRow(3, mThirdProblem);
 
 			Drawable wallpaperDrawable = WallpaperManager.getInstance(this).getDrawable();
 
-			ImageView imageView = findViewById(R.id.wallpaper);
-			imageView.setImageDrawable(wallpaperDrawable);
-
-			BitmapDrawable originalDrawable = (BitmapDrawable) imageView.getDrawable();
+			BitmapDrawable originalDrawable = (BitmapDrawable) wallpaperDrawable;
 
 			Bitmap originalBitmap = originalDrawable.getBitmap();
-			Bitmap blurredBitmap = BlurBuilder.getBitmapWithBlur(LockActivity.this, originalBitmap);
+			Bitmap blurredBitmap = BlurBuilder.getBitmapWithBlur(this, originalBitmap);
 
+			ImageView imageView = findViewById(R.id.bg_wallpaper_iv);
 			imageView.setImageBitmap(blurredBitmap);
 		} catch (Exception e){
 			Log.e(TAG,"continueAfterRequest: " + e.getMessage());
@@ -197,6 +270,34 @@ public class LockActivity extends AppCompatActivity {
 
 			Toast.makeText(this, "continueAfterRequest: " + e.getMessage(), Toast.LENGTH_LONG).show();
 		}
+	}
+
+	private void initProblemByRow(int row, Problem problem){
+		RobotoTextView firstNumTv;
+		RobotoTextView markTv;
+		RobotoTextView secondNumTv;
+
+		switch (row){
+			case 1:
+				firstNumTv = findViewById(R.id.first_num_tv);
+				markTv = findViewById(R.id.first_mark_num_tv);
+				secondNumTv = findViewById(R.id.second_num_tv);
+				break;
+			case 2:
+				firstNumTv = findViewById(R.id.first_num_tv2);
+				markTv = findViewById(R.id.second_mark_num_tv);
+				secondNumTv = findViewById(R.id.second_num_tv2);
+				break;
+			default:
+				firstNumTv = findViewById(R.id.first_num_tv3);
+				markTv = findViewById(R.id.third_mark_num_tv);
+				secondNumTv = findViewById(R.id.second_num_tv3);
+				break;
+		}
+
+		firstNumTv.setText(String.valueOf(problem.getFirstNumber()));
+		markTv.setText(problem.getOperationMark());
+		secondNumTv.setText(String.valueOf(problem.getSecondNumber()));
 	}
 
 	@Override

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.MasterKeyActivity"
+        android:background="@color/white">
+
+    <badda3mon.lockscreen.views.RobotoTextView
+            android:text="@string/app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/master_key_app_name_tv"
+            android:textColor="@color/black"
+            android:textSize="40sp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="70dp"
+            android:textAllCaps="true"/>
+
+    <badda3mon.lockscreen.views.RobotoTextView
+            android:text="@string/master_key_hint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/master_key_hint_tv"
+            android:textColor="#FF777777"
+            android:textSize="24sp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_above="@id/master_key_et"
+            android:layout_marginBottom="80dp"/>
+
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/master_key_et"
+            android:layout_above="@id/master_key_ok_btn"
+            android:layout_marginBottom="130dp"
+            android:layout_alignEnd="@id/master_key_ok_btn"
+            android:layout_alignStart="@id/master_key_ok_btn"
+            android:hint="PIN"
+            android:singleLine="true"
+            android:gravity="center"
+            android:textSize="34sp"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            android:textColorHint="#FF777777"
+            android:textColorHighlight="@color/black"
+            android:textColorLink="@color/black"
+            android:textCursorDrawable="@null"/>
+
+    <Button
+            android:text="OK"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/master_key_ok_btn"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="60dp"
+            android:backgroundTint="@color/buttons_bg_color"
+            android:textColor="@color/white"/>
+</RelativeLayout>
